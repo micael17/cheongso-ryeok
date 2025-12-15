@@ -1,0 +1,123 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const guides = (await getCollection('guide')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const pageTitle = '구매 가이드';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`${pageTitle} | ${SITE_TITLE}`} description="청소기 구매 가이드, 사용 팁, 관리 방법" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>{pageTitle}</h1>
+
+			{guides.length > 0 ? (
+				<ul class="guide-list">
+					{guides.map((guide) => (
+						<li>
+							<a href={`/guide/${guide.id}/`}>
+								<div class="guide-info">
+									<span class="category">{guide.data.category}</span>
+								</div>
+								<h2>{guide.data.title}</h2>
+								<p class="description">{guide.data.description}</p>
+								<time datetime={guide.data.pubDate.toISOString()}>
+									{guide.data.pubDate.toLocaleDateString('ko-KR')}
+								</time>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty-message">가이드를 준비 중입니다...</p>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h1 {
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid rgb(var(--black));
+	}
+
+	.guide-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.guide-list li {
+		border-bottom: 1px solid rgb(var(--gray-200));
+	}
+
+	.guide-list li:last-child {
+		border-bottom: none;
+	}
+
+	.guide-list a {
+		display: block;
+		padding: 1.5rem 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.guide-list a:hover {
+		opacity: 1;
+		background: rgb(var(--gray-50));
+		margin: 0 -1rem;
+		padding: 1.5rem 1rem;
+	}
+
+	.guide-info {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.guide-info span {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		background: rgb(var(--gray-100));
+		border-radius: 4px;
+	}
+
+	.category {
+		font-weight: 600;
+	}
+
+	.guide-list h2 {
+		font-size: 1.25rem;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.description {
+		color: rgb(var(--gray-600));
+		margin: 0 0 0.5rem 0;
+		font-size: 0.9375rem;
+	}
+
+	time {
+		font-size: 0.875rem;
+		color: rgb(var(--gray-500));
+	}
+
+	.empty-message {
+		color: rgb(var(--gray-500));
+		text-align: center;
+		padding: 3rem 0;
+	}
+</style>

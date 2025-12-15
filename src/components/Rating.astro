@@ -1,0 +1,30 @@
+---
+interface Props {
+	rating: number;
+	max?: number;
+}
+
+const { rating, max = 5 } = Astro.props;
+---
+
+<div class="rating" aria-label={`${rating}점 / ${max}점`}>
+	{Array.from({ length: max }, (_, i) => (
+		<span class={`rating-star ${i < rating ? 'filled' : ''}`}>★</span>
+	))}
+</div>
+
+<style>
+	.rating {
+		display: inline-flex;
+		gap: 0.125rem;
+	}
+
+	.rating-star {
+		color: rgb(var(--gray-300));
+		font-size: 1rem;
+	}
+
+	.rating-star.filled {
+		color: rgb(var(--black));
+	}
+</style>

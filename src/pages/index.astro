@@ -1,0 +1,237 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_NAME, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+
+const reviews = (await getCollection('review')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 5);
+
+const compares = (await getCollection('compare')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 5);
+
+const guides = (await getCollection('guide')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+).slice(0, 5);
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class="hero">
+				<h1>{SITE_NAME}</h1>
+				<p>{SITE_DESCRIPTION}</p>
+			</section>
+
+			<section class="content-section">
+				<div class="section-header">
+					<h2>최신 리뷰</h2>
+					<a href="/review" class="view-all">전체보기 →</a>
+				</div>
+				{reviews.length > 0 ? (
+					<ul class="post-list">
+						{reviews.map((post) => (
+							<li>
+								<a href={`/review/${post.id}/`}>
+									<div class="post-info">
+										<span class="tag">{post.data.brand}</span>
+										<span class="tag">{post.data.type}</span>
+									</div>
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										{post.data.pubDate.toLocaleDateString('ko-KR')}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p class="empty-message">리뷰 준비 중...</p>
+				)}
+			</section>
+
+			<section class="content-section">
+				<div class="section-header">
+					<h2>비교 분석</h2>
+					<a href="/compare" class="view-all">전체보기 →</a>
+				</div>
+				{compares.length > 0 ? (
+					<ul class="post-list">
+						{compares.map((post) => (
+							<li>
+								<a href={`/compare/${post.id}/`}>
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										{post.data.pubDate.toLocaleDateString('ko-KR')}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p class="empty-message">비교 분석 준비 중...</p>
+				)}
+			</section>
+
+			<section class="content-section">
+				<div class="section-header">
+					<h2>구매 가이드</h2>
+					<a href="/guide" class="view-all">전체보기 →</a>
+				</div>
+				{guides.length > 0 ? (
+					<ul class="post-list">
+						{guides.map((post) => (
+							<li>
+								<a href={`/guide/${post.id}/`}>
+									<span class="post-title">{post.data.title}</span>
+									<span class="post-date">
+										{post.data.pubDate.toLocaleDateString('ko-KR')}
+									</span>
+								</a>
+							</li>
+						))}
+					</ul>
+				) : (
+					<p class="empty-message">가이드 준비 중...</p>
+				)}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.hero {
+		text-align: center;
+		padding: 3rem 0;
+		border-bottom: 1px solid rgb(var(--gray-200));
+		margin-bottom: 2rem;
+	}
+
+	.hero h1 {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+		letter-spacing: -0.02em;
+	}
+
+	.hero p {
+		color: rgb(var(--gray-600));
+		margin: 0;
+	}
+
+	.content-section {
+		margin-bottom: 3rem;
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 1rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid rgb(var(--black));
+	}
+
+	.section-header h2 {
+		margin: 0;
+		font-size: 1.25rem;
+	}
+
+	.view-all {
+		font-size: 0.875rem;
+		color: rgb(var(--gray-600));
+		text-decoration: none;
+	}
+
+	.view-all:hover {
+		color: rgb(var(--black));
+		opacity: 1;
+	}
+
+	.post-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.post-list li {
+		margin: 0;
+		border-bottom: 1px solid rgb(var(--gray-200));
+	}
+
+	.post-list li:last-child {
+		border-bottom: none;
+	}
+
+	.post-list a {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 1rem 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.post-list a:hover {
+		opacity: 1;
+		background: rgb(var(--gray-50));
+		margin: 0 -0.5rem;
+		padding: 1rem 0.5rem;
+	}
+
+	.post-info {
+		display: flex;
+		gap: 0.375rem;
+		width: 100%;
+	}
+
+	.tag {
+		font-size: 0.6875rem;
+		padding: 0.125rem 0.5rem;
+		background: rgb(var(--gray-100));
+		border-radius: 4px;
+		color: rgb(var(--gray-600));
+	}
+
+	.post-title {
+		font-weight: 500;
+		flex: 1;
+	}
+
+	.post-date {
+		font-size: 0.875rem;
+		color: rgb(var(--gray-500));
+	}
+
+	.empty-message {
+		color: rgb(var(--gray-500));
+		text-align: center;
+		padding: 2rem 0;
+	}
+
+	@media (max-width: 640px) {
+		.hero h1 {
+			font-size: 2rem;
+		}
+
+		.post-list a {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.25rem;
+		}
+
+		.post-info {
+			order: -1;
+		}
+	}
+</style>

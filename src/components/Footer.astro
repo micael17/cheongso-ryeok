@@ -1,0 +1,37 @@
+---
+import { SITE_TITLE } from '../consts';
+const year = new Date().getFullYear();
+---
+
+<footer>
+	<p>&copy; {year} {SITE_TITLE}</p>
+	<p class="disclaimer">본 블로그는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+</footer>
+
+<style>
+	footer {
+		max-width: 1024px;
+		margin: 0 auto;
+		padding: 2rem 1.5rem;
+		border-top: 1px solid rgb(var(--gray-200));
+		text-align: center;
+	}
+
+	footer p {
+		margin: 0;
+		font-size: 0.875rem;
+		color: rgb(var(--gray-500));
+	}
+
+	.disclaimer {
+		margin-top: 0.5rem;
+		font-size: 0.75rem;
+		color: rgb(var(--gray-400));
+	}
+
+	@media (max-width: 640px) {
+		footer {
+			padding: 1.5rem 1rem;
+		}
+	}
+</style>

@@ -1,0 +1,150 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import Rating from '../../components/Rating.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const reviews = (await getCollection('review')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const pageTitle = '청소기 리뷰';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`${pageTitle} | ${SITE_TITLE}`} description="무선청소기, 로봇청소기, 물걸레청소기 리뷰 모음" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>{pageTitle}</h1>
+
+			{reviews.length > 0 ? (
+				<ul class="review-list">
+					{reviews.map((review) => (
+						<li>
+							<a href={`/review/${review.id}/`}>
+								<div class="review-info">
+									<span class="brand">{review.data.brand}</span>
+									<span class="type">{review.data.type}</span>
+									{review.data.rating && (
+										<span class="rating-inline">
+											<Rating rating={review.data.rating} />
+										</span>
+									)}
+								</div>
+								<h2>{review.data.title}</h2>
+								<p class="description">{review.data.description}</p>
+								<div class="review-footer">
+									{review.data.price && <span class="price">{review.data.price}</span>}
+									<time datetime={review.data.pubDate.toISOString()}>
+										{review.data.pubDate.toLocaleDateString('ko-KR')}
+									</time>
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty-message">리뷰를 준비 중입니다...</p>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h1 {
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid rgb(var(--black));
+	}
+
+	.review-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.review-list li {
+		border-bottom: 1px solid rgb(var(--gray-200));
+	}
+
+	.review-list li:last-child {
+		border-bottom: none;
+	}
+
+	.review-list a {
+		display: block;
+		padding: 1.5rem 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.review-list a:hover {
+		opacity: 1;
+		background: rgb(var(--gray-50));
+		margin: 0 -1rem;
+		padding: 1.5rem 1rem;
+	}
+
+	.review-info {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.review-info span {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		background: rgb(var(--gray-100));
+		border-radius: 4px;
+	}
+
+	.brand {
+		font-weight: 600;
+	}
+
+	.rating-inline {
+		background: transparent !important;
+		padding: 0 !important;
+	}
+
+	.review-list h2 {
+		font-size: 1.25rem;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.description {
+		color: rgb(var(--gray-600));
+		margin: 0 0 0.5rem 0;
+		font-size: 0.9375rem;
+	}
+
+	.review-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.price {
+		font-weight: 600;
+		font-size: 0.9375rem;
+	}
+
+	time {
+		font-size: 0.875rem;
+		color: rgb(var(--gray-500));
+	}
+
+	.empty-message {
+		color: rgb(var(--gray-500));
+		text-align: center;
+		padding: 3rem 0;
+	}
+</style>

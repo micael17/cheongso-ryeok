@@ -1,0 +1,144 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import { getCollection } from 'astro:content';
+
+const compares = (await getCollection('compare')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const pageTitle = '청소기 비교';
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`${pageTitle} | ${SITE_TITLE}`} description="청소기 브랜드별, 모델별 비교 분석" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>{pageTitle}</h1>
+
+			{compares.length > 0 ? (
+				<ul class="compare-list">
+					{compares.map((compare) => (
+						<li>
+							<a href={`/compare/${compare.id}/`}>
+								<div class="compare-info">
+									<span class="type">{compare.data.type}</span>
+									{compare.data.winner && <span class="winner">추천: {compare.data.winner}</span>}
+								</div>
+								<h2>{compare.data.title}</h2>
+								<p class="description">{compare.data.description}</p>
+								<div class="products">
+									{compare.data.products.map((product) => (
+										<span class="product-tag">{product}</span>
+									))}
+								</div>
+								<time datetime={compare.data.pubDate.toISOString()}>
+									{compare.data.pubDate.toLocaleDateString('ko-KR')}
+								</time>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p class="empty-message">비교 분석을 준비 중입니다...</p>
+			)}
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	h1 {
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid rgb(var(--black));
+	}
+
+	.compare-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.compare-list li {
+		border-bottom: 1px solid rgb(var(--gray-200));
+	}
+
+	.compare-list li:last-child {
+		border-bottom: none;
+	}
+
+	.compare-list a {
+		display: block;
+		padding: 1.5rem 0;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.compare-list a:hover {
+		opacity: 1;
+		background: rgb(var(--gray-50));
+		margin: 0 -1rem;
+		padding: 1.5rem 1rem;
+	}
+
+	.compare-info {
+		display: flex;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.compare-info span {
+		font-size: 0.75rem;
+		padding: 0.25rem 0.5rem;
+		background: rgb(var(--gray-100));
+		border-radius: 4px;
+	}
+
+	.winner {
+		background: rgb(var(--black)) !important;
+		color: rgb(var(--white));
+	}
+
+	.compare-list h2 {
+		font-size: 1.25rem;
+		margin: 0 0 0.5rem 0;
+	}
+
+	.description {
+		color: rgb(var(--gray-600));
+		margin: 0 0 0.75rem 0;
+		font-size: 0.9375rem;
+	}
+
+	.products {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.375rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.product-tag {
+		font-size: 0.6875rem;
+		padding: 0.25rem 0.5rem;
+		background: rgb(var(--gray-200));
+		border-radius: 4px;
+	}
+
+	time {
+		font-size: 0.875rem;
+		color: rgb(var(--gray-500));
+	}
+
+	.empty-message {
+		color: rgb(var(--gray-500));
+		text-align: center;
+		padding: 3rem 0;
+	}
+</style>

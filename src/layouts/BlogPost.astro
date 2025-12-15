@@ -1,0 +1,274 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import Rating from '../components/Rating.astro';
+import { SITE_NAME, SITE_URL, SITE_AUTHOR } from '../consts';
+
+type Props = CollectionEntry<'review'>['data'] & {
+	contentType?: 'review' | 'compare' | 'guide';
+};
+
+const {
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	product,
+	brand,
+	type,
+	rating,
+	price,
+	pros,
+	cons,
+	coupangUrl,
+	contentType = 'review'
+} = Astro.props;
+
+// JSON-LD Structured Data
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": contentType === 'review' ? "Review" : "Article",
+	"headline": title,
+	"description": description,
+	"author": {
+		"@type": "Person",
+		"name": SITE_AUTHOR
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": SITE_NAME,
+		"url": SITE_URL
+	},
+	"datePublished": pubDate.toISOString(),
+	...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+	...(heroImage && { "image": new URL(heroImage.src, SITE_URL).toString() }),
+	"mainEntityOfPage": {
+		"@type": "WebPage",
+		"@id": Astro.url.toString()
+	},
+	...(contentType === 'review' && rating && {
+		"reviewRating": {
+			"@type": "Rating",
+			"ratingValue": rating,
+			"bestRating": 5
+		},
+		"itemReviewed": {
+			"@type": "Product",
+			"name": product,
+			"brand": {
+				"@type": "Brand",
+				"name": brand
+			}
+		}
+	})
+};
+---
+
+<html lang="ko">
+	<head>
+		<BaseHead
+			title={title}
+			description={description}
+			image={heroImage}
+			type="article"
+			articleDate={pubDate}
+			articleModifiedDate={updatedDate}
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 100%;
+				margin: 0;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 720px;
+				max-width: calc(100% - 2em);
+				margin: auto;
+				padding: 1em;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+			.product-meta {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.5rem;
+				margin-bottom: 1rem;
+			}
+			.product-meta span {
+				font-size: 0.75rem;
+				padding: 0.25rem 0.75rem;
+				background: rgb(var(--gray-100));
+				border-radius: 999px;
+			}
+			.rating-section {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 0.5rem;
+				margin-bottom: 1rem;
+			}
+			.price-tag {
+				font-size: 1.125rem;
+				font-weight: 600;
+				text-align: center;
+				margin-bottom: 1rem;
+			}
+			.coupang-section {
+				text-align: center;
+				margin: 2rem 0;
+			}
+			.coupang-btn {
+				display: inline-block;
+				padding: 0.875rem 2rem;
+				background: rgb(var(--black));
+				color: rgb(var(--white));
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: 600;
+				transition: opacity 0.2s;
+			}
+			.coupang-btn:hover {
+				opacity: 0.8;
+				color: rgb(var(--white));
+			}
+			.pros-cons {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+				margin: 2rem 0;
+			}
+			.pros, .cons {
+				padding: 1.25rem;
+				border-radius: 8px;
+				background: rgb(var(--gray-50));
+				border: 1px solid rgb(var(--gray-200));
+			}
+			.pros h4, .cons h4 {
+				margin: 0 0 0.75rem 0;
+				font-size: 0.9375rem;
+			}
+			.pros ul, .cons ul {
+				margin: 0;
+				padding-left: 1.25rem;
+				font-size: 0.875rem;
+			}
+			.pros li, .cons li {
+				margin-bottom: 0.25rem;
+			}
+			@media (max-width: 640px) {
+				.pros-cons {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{heroImage && <Image width={1020} height={510} src={heroImage} alt={title} />}
+				</div>
+				<div class="prose">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										Last updated on <FormattedDate date={updatedDate} />
+									</div>
+								)
+							}
+						</div>
+						<h1>{title}</h1>
+
+						{contentType === 'review' && (
+							<>
+								<div class="product-meta">
+									<span>{brand}</span>
+									<span>{type}</span>
+								</div>
+								{rating && (
+									<div class="rating-section">
+										<Rating rating={rating} />
+										<span>{rating}/5</span>
+									</div>
+								)}
+								{price && (
+									<p class="price-tag">{price}</p>
+								)}
+							</>
+						)}
+
+						<hr />
+					</div>
+
+					{contentType === 'review' && (pros || cons) && (
+						<div class="pros-cons">
+							{pros && pros.length > 0 && (
+								<div class="pros">
+									<h4>장점</h4>
+									<ul>
+										{pros.map((pro) => <li>{pro}</li>)}
+									</ul>
+								</div>
+							)}
+							{cons && cons.length > 0 && (
+								<div class="cons">
+									<h4>단점</h4>
+									<ul>
+										{cons.map((con) => <li>{con}</li>)}
+									</ul>
+								</div>
+							)}
+						</div>
+					)}
+
+					<slot />
+
+					{contentType === 'review' && coupangUrl && (
+						<div class="coupang-section">
+							<a href={coupangUrl} class="coupang-btn" target="_blank" rel="noopener noreferrer nofollow">
+								쿠팡에서 최저가 확인하기
+							</a>
+						</div>
+					)}
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

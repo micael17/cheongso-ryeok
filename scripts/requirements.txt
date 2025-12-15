@@ -1,0 +1,5 @@
+# YouTube 자막 수집에 필요한 패키지
+youtube-transcript-api>=1.0.0
+
+# YouTube 검색 기능 (선택사항 - API 키 필요)
+google-api-python-client>=2.0.0
