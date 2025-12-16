@@ -18,8 +18,10 @@ cons:
   - "국내 브랜드 대비 A/S 접근성 우려"
 pubDate: 2025-12-17
 heroImage: "../../assets/shark-neo-plus.jpg"
-coupangUrl: "https://www.coupang.com/vp/products/샤크-EVO-POWER"
+coupangUrl: "https://link.coupang.com/a/de2Bqf"
 ---
+
+<iframe src="https://ads-partners.coupang.com/widgets.html?id=387698&template=carousel&trackingCode=AF1409487&subId=&width=680&height=140&tsource=" width="100%" height="140" frameborder="0" scrolling="no" referrerpolicy="unsafe-url" browsingtopics></iframe>
 
 ## 샤크 EVO POWER SYSTEM NEO+란?
 
@@ -155,6 +157,16 @@ coupangUrl: "https://www.coupang.com/vp/products/샤크-EVO-POWER"
 다이슨의 절반 무게에, 자동먼지비움까지 기본 포함되어 실사용 편의성은 최상급입니다.
 
 **별점 4.7점** - 전반적으로 만족스러운 제품입니다.
+
+---
+
+## 구매하기
+
+<a href="https://link.coupang.com/a/de2Bqf" target="_blank" referrerpolicy="unsafe-url">
+  <img src="https://image8.coupangcdn.com/image/affiliate/banner/c8a77f33d96624362c353d16fbb8c250@2x.jpg" alt="샤크 EVO POWER SYSTEM NEO+ 스틱 무선 청소기" width="120" height="240" />
+</a>
+
+👉 [쿠팡에서 최저가 확인하기](https://link.coupang.com/a/de2Bqf)
 
 ---
 

@@ -164,6 +164,27 @@ heroImage: "../../assets/{브랜드}-{모델명}.jpg"
 - H2/H3 소제목에 관련 키워드 자연스럽게 배치
 - 비교 테이블 적극 활용
 
+### 쿠팡 파트너스 링크 규칙 (중요!)
+
+이 블로그는 **쿠팡 파트너스 링크로 수익화**합니다.
+
+1. **모든 포스팅에 쿠팡 링크 필수**
+2. **링크 위치**:
+   - **상단 (본문 맨 처음, 장점/단점 위)**: 캐러셀 배너 삽입
+     ```html
+     <iframe src="https://ads-partners.coupang.com/widgets.html?id=387698&template=carousel&trackingCode=AF1409487&subId=&width=680&height=140&tsource=" width="100%" height="140" frameborder="0" scrolling="no" referrerpolicy="unsafe-url" browsingtopics></iframe>
+     ```
+   - **하단 (결론 후)**: 제품 이미지 배너 + 텍스트 링크
+     ```html
+     ## 구매하기
+     <a href="{쿠팡링크}" target="_blank" referrerpolicy="unsafe-url">
+       <img src="{쿠팡이미지URL}" alt="{제품명}" width="120" height="240" />
+     </a>
+     👉 [쿠팡에서 최저가 확인하기]({쿠팡링크})
+     ```
+3. **포스팅 완료 후**: 사용자에게 "쿠팡 파트너스 링크가 필요합니다"라고 제안할 것
+4. **frontmatter**: `coupangUrl` 필드에 링크 저장
+
 ---
 
 ## 슬래시 커맨드
