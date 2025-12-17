@@ -6,6 +6,7 @@ brand: "다이슨"
 type: "무선청소기"
 rating: 4
 price: "100~120만원대"
+draft: true
 pros:
   - "레이저로 먼지 시각화 - 청소가 재미있어짐"
   - "강력한 흡입력 (230AW)"

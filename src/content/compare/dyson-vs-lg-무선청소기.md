@@ -1,6 +1,7 @@
 ---
 title: "다이슨 V15 vs LG 코드제로 A9S - 무선청소기 양대산맥 비교"
 description: "무선청소기 시장의 양대산맥 다이슨과 LG를 실사용 관점에서 비교 분석합니다."
+draft: true
 products:
   - "다이슨 V15 디텍트"
   - "LG 코드제로 A9S"

@@ -5,9 +5,9 @@ import Header from '../../components/Header.astro';
 import { SITE_TITLE } from '../../consts';
 import { getCollection } from 'astro:content';
 
-const guides = (await getCollection('guide')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const guides = (await getCollection('guide'))
+	.filter((post) => post.data.draft !== true)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const pageTitle = '구매 가이드';
 ---

@@ -6,9 +6,9 @@ import Rating from '../../components/Rating.astro';
 import { SITE_TITLE } from '../../consts';
 import { getCollection } from 'astro:content';
 
-const reviews = (await getCollection('review')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const reviews = (await getCollection('review'))
+	.filter((post) => post.data.draft !== true)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const pageTitle = '청소기 리뷰';
 ---

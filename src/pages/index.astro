@@ -5,17 +5,20 @@ import Header from '../components/Header.astro';
 import { SITE_NAME, SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { getCollection } from 'astro:content';
 
-const reviews = (await getCollection('review')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 5);
+const reviews = (await getCollection('review'))
+	.filter((post) => post.data.draft !== true)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 
-const compares = (await getCollection('compare')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 5);
+const compares = (await getCollection('compare'))
+	.filter((post) => post.data.draft !== true)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 
-const guides = (await getCollection('guide')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-).slice(0, 5);
+const guides = (await getCollection('guide'))
+	.filter((post) => post.data.draft !== true)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
 ---
 
 <!doctype html>

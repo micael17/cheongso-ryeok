@@ -8,7 +8,7 @@ import Header from '../../components/Header.astro';
 import { SITE_NAME, SITE_URL, SITE_AUTHOR } from '../../consts';
 
 export async function getStaticPaths() {
-	const guides = await getCollection('guide');
+	const guides = (await getCollection('guide')).filter((post) => post.data.draft !== true);
 	return guides.map((guide) => ({
 		params: { slug: guide.id },
 		props: guide,

@@ -8,7 +8,7 @@ import Header from '../../components/Header.astro';
 import { SITE_NAME, SITE_URL, SITE_AUTHOR } from '../../consts';
 
 export async function getStaticPaths() {
-	const compares = await getCollection('compare');
+	const compares = (await getCollection('compare')).filter((post) => post.data.draft !== true);
 	return compares.map((compare) => ({
 		params: { slug: compare.id },
 		props: compare,
