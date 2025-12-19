@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import Rating from '../components/Rating.astro';
+import Sidebar from '../components/Sidebar.astro';
 import { SITE_NAME, SITE_URL, SITE_AUTHOR } from '../consts';
 
 type Props = CollectionEntry<'review'>['data'] & {
@@ -82,9 +83,19 @@ const jsonLd = {
 		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 		<style>
 			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
+				width: 100%;
+				max-width: 1400px;
+				margin: 0 auto;
+				padding: 0 1rem;
+			}
+			.content-wrapper {
+				display: flex;
+				gap: 2rem;
+				align-items: flex-start;
+			}
+			.article-container {
+				flex: 1;
+				min-width: 0;
 			}
 			.hero-image {
 				width: 100%;
@@ -197,10 +208,11 @@ const jsonLd = {
 	<body>
 		<Header />
 		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt={title} />}
-				</div>
+			<div class="content-wrapper">
+				<article class="article-container">
+					<div class="hero-image">
+						{heroImage && <Image width={1020} height={510} src={heroImage} alt={title} />}
+					</div>
 				<div class="prose">
 					<div class="title">
 						<div class="date">
@@ -266,8 +278,10 @@ const jsonLd = {
 							</a>
 						</div>
 					)}
-				</div>
-			</article>
+					</div>
+				</article>
+				<Sidebar />
+			</div>
 		</main>
 		<Footer />
 	</body>
