@@ -10,7 +10,7 @@ import { SITE_NAME, SITE_URL, SITE_AUTHOR } from '../../consts';
 export async function getStaticPaths() {
 	const compares = (await getCollection('compare')).filter((post) => post.data.draft !== true);
 	return compares.map((compare) => ({
-		params: { slug: compare.id },
+		params: { slug: compare.slug },
 		props: compare,
 	}));
 }

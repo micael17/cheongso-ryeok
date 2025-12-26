@@ -26,7 +26,7 @@ const pageTitle = '구매 가이드';
 				<ul class="guide-list">
 					{guides.map((guide) => (
 						<li>
-							<a href={`/guide/${guide.id}/`}>
+							<a href={`/guide/${guide.slug}/`}>
 								<div class="guide-info">
 									<span class="category">{guide.data.category}</span>
 								</div>

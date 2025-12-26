@@ -6,7 +6,7 @@ import BlogPost from '../../layouts/BlogPost.astro';
 export async function getStaticPaths() {
 	const reviews = (await getCollection('review')).filter((post) => post.data.draft !== true);
 	return reviews.map((review) => ({
-		params: { slug: review.id },
+		params: { slug: review.slug },
 		props: review,
 	}));
 }

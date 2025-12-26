@@ -27,7 +27,7 @@ const pageTitle = '청소기 리뷰';
 				<ul class="review-list">
 					{reviews.map((review) => (
 						<li>
-							<a href={`/review/${review.id}/`}>
+							<a href={`/review/${review.slug}/`}>
 								<div class="review-info">
 									<span class="brand">{review.data.brand}</span>
 									<span class="type">{review.data.type}</span>

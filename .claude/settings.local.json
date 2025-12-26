@@ -4,7 +4,18 @@
       "Bash(python youtube_transcript.py:*)",
       "Bash(git init:*)",
       "Bash(git remote add:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(bun install)",
+      "Bash(bun run build:*)",
+      "WebSearch",
+      "WebFetch(domain:trends.google.com)",
+      "WebFetch(domain:datalab.naver.com)",
+      "WebFetch(domain:blackkiwi.net)",
+      "mcp__playwright__browser_type",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)"
     ]
   }
 }

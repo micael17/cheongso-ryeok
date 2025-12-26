@@ -26,7 +26,7 @@ const pageTitle = '청소기 비교';
 				<ul class="compare-list">
 					{compares.map((compare) => (
 						<li>
-							<a href={`/compare/${compare.id}/`}>
+							<a href={`/compare/${compare.slug}/`}>
 								<div class="compare-info">
 									<span class="type">{compare.data.type}</span>
 									{compare.data.winner && <span class="winner">추천: {compare.data.winner}</span>}
